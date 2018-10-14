@@ -8,6 +8,7 @@ namespace NASAGallery.Repository
     {
         Unknown,
         Image,
-        Video
+        Video,
+        Audio
     }
 }

@@ -14,7 +14,7 @@ namespace NASAGallery.ViewModels
         {
             TestApiCommand = new Command(async () =>
             {
-                var model = await ApiClient.RequestApodAsync();
+                var model = await ApiClient.SearchAsync("hubble");
             });
 
             GotoApodCommand = new Command(async () =>
