@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using NASAGallery.Repository;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace NASAGallery.ViewModels
@@ -124,74 +120,83 @@ namespace NASAGallery.ViewModels
 
         public ApodViewModel()
         {
-            ShowPreviousDayCommand = new Command(ShowPreviousDay, () => !IsBusy);
-            ShowNextDayCommand = new Command(ShowNextDay, () => !IsBusy && IsNexDayAvailable);
+            ShowPreviousDayCommand = new Command(async () => await ShowPreviousDay(), () => !IsBusy);
+            ShowNextDayCommand = new Command(async () => await ShowNextDay(), () => !IsBusy && IsNexDayAvailable);
             OpenInBrowserCommand = new Command(() => Device.OpenUri(new Uri(Url)));
             ShowCurrentDay();
         }
 
         private void ShowCurrentDay()
         {
-            GetApodData();
+            Task.Run(async () => await GetApodData());
         }
 
-        private void ShowPreviousDay()
+        private async Task ShowPreviousDay()
         {
             if (DateTime.TryParseExact(Date, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None,
                 out DateTime currentDateTime))
             {
-                GetApodData(currentDateTime.AddDays(-1).ToString(DateFormat));
+                await GetApodData(currentDateTime.AddDays(-1).ToString(DateFormat));
             }
         }
 
-        private void ShowNextDay()
+        private async Task ShowNextDay()
         {
             if (DateTime.TryParseExact(Date, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None,
                 out DateTime currentDateTime))
             {
-                GetApodData(currentDateTime.AddDays(1).ToString(DateFormat));
+                await GetApodData(currentDateTime.AddDays(1).ToString(DateFormat));
             }
         }
 
-        private void GetApodData(string forDate = null)
+        private async Task GetApodData(string forDate = null)
         {
-            try
-            {
-                IsBusy = true;
-                ShowPreviousDayCommand.ChangeCanExecute();
-                ShowNextDayCommand.ChangeCanExecute();
+            UpdateBusyState(true);
 
-                Task.Run(async () =>
+            await Task.Run(async () =>
+            {
+                try
                 {
-                    try
-                    {
-                        var apodModel = await ApiClient.RequestApodAsync(forDate);
-                        
-                        Title = apodModel?.Title;
-                        MediaType = apodModel?.MediaType;
-                        Url = apodModel?.Url;
-                        HdUrl = apodModel?.HdUrl;
-                        Copyright = apodModel?.Copyright;
-                        Explanation = apodModel?.Explanation;
-                        Date = apodModel?.Date ?? forDate;
+                    var apodModel = await ApiClient.RequestApodAsync(forDate);
 
-                        IsDataAvailable = apodModel != null;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
-                }).Wait();
-            }
-            finally
-            {
-                IsBusy = false;
-                ShowPreviousDayCommand.ChangeCanExecute();
-                ShowNextDayCommand.ChangeCanExecute();
-            }
+                    Title = apodModel?.Title;
+                    MediaType = apodModel?.MediaType;
+                    Url = apodModel?.Url;
+                    HdUrl = apodModel?.HdUrl;
+                    Copyright = apodModel?.Copyright;
+                    Explanation = apodModel?.Explanation;
+                    Date = apodModel?.Date ?? forDate;
+
+                    IsDataAvailable = apodModel != null;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                finally
+                {
+                    UpdateBusyState(false);
+                }
+            });
         }
 
-        
+        private void UpdateBusyState(bool isBusy)
+        {
+            if (Device.IsInvokeRequired)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    IsBusy = isBusy;
+                    ShowPreviousDayCommand.ChangeCanExecute();
+                    ShowNextDayCommand.ChangeCanExecute();
+                });
+                return;
+            }
+
+            IsBusy = isBusy;
+            ShowPreviousDayCommand.ChangeCanExecute();
+            ShowNextDayCommand.ChangeCanExecute();
+        }
     }
 }
