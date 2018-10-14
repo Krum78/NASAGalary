@@ -4,11 +4,12 @@ using System.Text;
 
 namespace NASAGallery.Repository
 {
+    [Flags]
     public enum MediaType
     {
-        Unknown,
-        Image,
-        Video,
-        Audio
+        None = 0,
+        Image = 1,
+        Video = 2,
+        Audio = 4
     }
 }

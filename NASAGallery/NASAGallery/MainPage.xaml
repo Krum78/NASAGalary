@@ -10,6 +10,7 @@
     <StackLayout>
         <!-- Place new controls here -->
         <Button HorizontalOptions="Fill" Text="Astronomy Picture of the Day" Command="{Binding GotoApodCommand}"/>
+        <Button HorizontalOptions="Fill" Text="NASA Image and Video Library" Command="{Binding GotoSearchCommand}"/>
         <Button HorizontalOptions="Fill" Text="Test API" Command="{Binding TestApiCommand}"/>
     </StackLayout>
 

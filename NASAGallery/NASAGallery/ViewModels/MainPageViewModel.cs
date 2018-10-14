@@ -9,6 +9,7 @@ namespace NASAGallery.ViewModels
     {
         public ICommand TestApiCommand { get; }
         public ICommand GotoApodCommand { get; }
+        public ICommand GotoSearchCommand { get; }
 
         public MainPageViewModel()
         {
@@ -21,6 +22,13 @@ namespace NASAGallery.ViewModels
             {
                 Application.Current.MainPage.IsBusy = true;
                 await App.MainNavigation.PushAsync(new ApodView());
+                Application.Current.MainPage.IsBusy = false;
+            });
+
+            GotoSearchCommand = new Command(async () =>
+            {
+                Application.Current.MainPage.IsBusy = true;
+                await App.MainNavigation.PushAsync(new SearchLibraryView());
                 Application.Current.MainPage.IsBusy = false;
             });
         }
