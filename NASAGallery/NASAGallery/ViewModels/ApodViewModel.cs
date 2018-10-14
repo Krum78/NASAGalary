@@ -88,7 +88,6 @@ namespace NASAGallery.ViewModels
                 _mediaType = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsVideoSource));
-                OnPropertyChanged(nameof(IsImageSource));
             }
         }
 
@@ -115,14 +114,13 @@ namespace NASAGallery.ViewModels
         }
 
         public string VideoUrl => IsVideoSource ? Url : string.Empty;
-        public string ImageUrl => IsImageSource ? Url : string.Empty;
+        public string ImageUrl => !IsVideoSource ? Url : string.Empty;
 
         public bool IsVideoSource => MediaType == Repository.MediaType.Video;
-        public bool IsImageSource => MediaType == Repository.MediaType.Image;
-
-        public ICommand ShowPreviousDayCommand { get; }
-        public ICommand ShowNextDayCommand { get; }
-        public ICommand OpenInBrowserCommand { get; }
+        
+        public Command ShowPreviousDayCommand { get; }
+        public Command ShowNextDayCommand { get; }
+        public Command OpenInBrowserCommand { get; }
 
         public ApodViewModel()
         {
@@ -160,6 +158,9 @@ namespace NASAGallery.ViewModels
             try
             {
                 IsBusy = true;
+                ShowPreviousDayCommand.ChangeCanExecute();
+                ShowNextDayCommand.ChangeCanExecute();
+
                 Task.Run(async () =>
                 {
                     try
@@ -173,6 +174,8 @@ namespace NASAGallery.ViewModels
                         Copyright = apodModel?.Copyright;
                         Explanation = apodModel?.Explanation;
                         Date = apodModel?.Date ?? forDate;
+
+                        IsDataAvailable = apodModel != null;
                     }
                     catch (Exception e)
                     {
@@ -184,6 +187,8 @@ namespace NASAGallery.ViewModels
             finally
             {
                 IsBusy = false;
+                ShowPreviousDayCommand.ChangeCanExecute();
+                ShowNextDayCommand.ChangeCanExecute();
             }
         }
 

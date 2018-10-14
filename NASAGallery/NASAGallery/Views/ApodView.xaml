@@ -15,19 +15,28 @@
     <ContentPage.Content>
         <ScrollView HorizontalScrollBarVisibility="Never">
             <StackLayout>
+                <View.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Right" Command="{Binding ShowPreviousDayCommand}" />
+                    <SwipeGestureRecognizer Direction="Left" Command="{Binding ShowNextDayCommand}" />
+                </View.GestureRecognizers>
                 <Label Text="{Binding Date}" HorizontalTextAlignment="Center" FontSize="Large" FontAttributes="Bold"></Label>
-                <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Medium"/>
-                <Image Aspect="AspectFit" IsVisible="{Binding IsImageSource}">
-                    <Image.Source>
-                        <UriImageSource CachingEnabled="True" Uri="{Binding Url}" />
-                    </Image.Source>
-                </Image>
-                <Button Text="View Video In Browser" IsVisible="{Binding IsVideoSource}" Command="{Binding OpenInBrowserCommand}"></Button>
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Image Credits: " FontAttributes="Italic" FontSize="Small"/>
-                    <Label Text="{Binding Copyright}" FontAttributes="Italic" FontSize="Small"/>
+                <StackLayout IsVisible="{Binding IsDataAvailable}">
+                    <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Medium"/>
+                    <Image Aspect="AspectFit" IsVisible="{Binding IsVideoSource, Converter={StaticResource NegateBooleanConverter}}">
+                        <Image.Source>
+                            <UriImageSource CachingEnabled="True" Uri="{Binding Url}" />
+                        </Image.Source>
+                    </Image>
+                    <Button Text="View Video In Browser" IsVisible="{Binding IsVideoSource}" Command="{Binding OpenInBrowserCommand}"></Button>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Image Credits: " FontAttributes="Italic" FontSize="Small"/>
+                        <Label Text="{Binding Copyright}" FontAttributes="Italic" FontSize="Small"/>
+                    </StackLayout>
+                    <Label Text="{Binding Explanation}"/>
                 </StackLayout>
-                <Label Text="{Binding Explanation}"/>
+                <StackLayout IsVisible="{Binding IsDataAvailable, Converter={StaticResource NegateBooleanConverter}}">
+                    <Label Text="No data available for this date" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
