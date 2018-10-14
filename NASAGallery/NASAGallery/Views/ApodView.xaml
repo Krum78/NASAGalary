@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:NASAGallery.ViewModels"
+             x:Class="NASAGallery.Views.ApodView"
+             IsBusy="{Binding IsBusy}">
+    <!--Title="{Binding Date}"-->
+    <ContentPage.BindingContext>
+        <viewmodels:ApodViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ShowPreviousDayCommand}" Text="Previous day" Priority="0" Order="Primary" Icon="double_left.png"/>
+        <ToolbarItem Command="{Binding ShowNextDayCommand}" Text="Next day" Priority="1" Order="Primary" Icon="double_right.png"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView HorizontalScrollBarVisibility="Never">
+            <StackLayout>
+                <Label Text="{Binding Date}" HorizontalTextAlignment="Center" FontSize="Large" FontAttributes="Bold"></Label>
+                <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Medium"/>
+                <Image Aspect="AspectFit" IsVisible="{Binding IsImageSource}">
+                    <Image.Source>
+                        <UriImageSource CachingEnabled="True" Uri="{Binding Url}" />
+                    </Image.Source>
+                </Image>
+                <Button Text="View Video In Browser" IsVisible="{Binding IsVideoSource}" Command="{Binding OpenInBrowserCommand}"></Button>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Image Credits: " FontAttributes="Italic" FontSize="Small"/>
+                    <Label Text="{Binding Copyright}" FontAttributes="Italic" FontSize="Small"/>
+                </StackLayout>
+                <Label Text="{Binding Explanation}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
