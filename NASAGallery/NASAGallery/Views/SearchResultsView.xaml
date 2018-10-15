@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:NASAGallery.ViewModels"
+             x:Class="NASAGallery.Views.SearchResultsView"
+             x:Name="SearchResultsViewPage">
+    <ContentPage.BindingContext>
+        <viewModels:SearchResultsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding PrevPageCommand}" Text="Prev. page" Priority="0" Order="Primary" Icon="double_left.png"/>
+        <ToolbarItem Command="{Binding NextPageCommand}" Text="Next page" Priority="1" Order="Primary" Icon="double_right.png"/>
+    </ContentPage.ToolbarItems>
+    <ListView x:Name="MyListView" IsRefreshing="{Binding IsBusy}" ItemsSource="{Binding Items}" 
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
+              HasUnevenRows="True" CachingStrategy="RecycleElement"
+              SeparatorVisibility="None">
+        <ListView.GestureRecognizers>
+            
+        </ListView.GestureRecognizers>
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding Source={x:Reference SearchResultsViewPage}, Path=BindingContext.SelectItemCommand}" CommandParameter="{Binding .}"/>
+                            <TapGestureRecognizer NumberOfTapsRequired="2" Command="{Binding Source={x:Reference SearchResultsViewPage}, Path=BindingContext.ShowItemCommand}" CommandParameter="{Binding .}"/>
+                        </Grid.GestureRecognizers>
+
+                        <Image Grid.RowSpan="3" VerticalOptions="Start"  WidthRequest="80"  HeightRequest="80" Source="{Binding PreviewUrl}" Aspect="AspectFill" />
+
+                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Title}" Style="{DynamicResource ListTitleStyle}"/>
+                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding ShortDescription}" Style="{DynamicResource ListDescriptionStyle}"/>
+
+                        <Label VerticalOptions="Start" FontSize="Micro" Grid.Column="1" Grid.Row="2" Text="{Binding Date}">
+                            <Label.Margin>
+                                <OnPlatform x:TypeArguments="Thickness" Android="0" iOS="0,-10,0,10" WinPhone="0" />
+                            </Label.Margin>
+                        </Label>
+                        
+                    </Grid>
+                    
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+</ContentPage>

@@ -6,6 +6,26 @@
     <Application.Resources>
         <ResourceDictionary>
             <common:NegateBooleanConverter x:Key="NegateBooleanConverter"/>
+
+            <Color x:Key="ListTextColor">#000000</Color>
+
+            <Style x:Key="ListTitleStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions"
+                        Value="Start" />
+                <Setter Property="VerticalOptions"
+                        Value="Center" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="TextColor" Value="{DynamicResource ListTextColor}" />
+            </Style>
+
+            <Style x:Key="ListDescriptionStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions"
+                        Value="Start" />
+                <Setter Property="VerticalOptions"
+                        Value="Start" />
+                <Setter Property="TextColor" Value="{DynamicResource ListTextColor}" />
+                <Setter Property="Opacity" Value="0.4" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

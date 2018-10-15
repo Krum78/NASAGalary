@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:NASAGallery.ViewModels;assembly=NASAGallery"
+             x:Class="NASAGallery.Views.GalleryItemView">
+    <ContentPage.BindingContext>
+        <viewModels:GalleryItemViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView HorizontalScrollBarVisibility="Never">
+            <StackLayout Margin="5">
+                <StackLayout IsVisible="{Binding IsDataAvailable}">
+                    <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="Medium"/>
+                    <Image Aspect="AspectFit">
+                        <Image.Source>
+                            <UriImageSource CachingEnabled="True" Uri="{Binding ImageUrl}" />
+                        </Image.Source>
+                    </Image>
+                    <Label Text="{Binding Date}" HorizontalTextAlignment="Start" FontSize="Micro"></Label>
+                    <Button Text="View Video In Browser" IsVisible="{Binding IsVideoSource}" Command="{Binding OpenInBrowserCommand}"></Button>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Source: " FontAttributes="Italic" FontSize="Small"/>
+                        <Label Text="{Binding Copyright}" FontAttributes="Italic" FontSize="Small"/>
+                    </StackLayout>
+                    <Label Text="{Binding Explanation}"/>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsDataAvailable, Converter={StaticResource NegateBooleanConverter}}">
+                    <Label Text="No data available for selected item" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

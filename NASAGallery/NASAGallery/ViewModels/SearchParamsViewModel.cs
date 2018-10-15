@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using NASAGallery.Common;
 using NASAGallery.Repository;
 using Xamarin.Forms;
@@ -94,7 +95,68 @@ namespace NASAGallery.ViewModels
 
         public SearchParamsViewModel()
         {
-            SearchCommand = new Command(() => {});
+            SearchCommand = new Command(async () => await RunSearch(), () => !IsBusy);
+        }
+
+        private async Task RunSearch()
+        {
+            try
+            {
+                UpdateBusyState(true);
+
+                SearchResultModel result = await Task.Run(async () =>
+                {
+                    try
+                    {
+                        var resultModel = await ApiClient.SearchAsync(
+                            string.IsNullOrWhiteSpace(SearchQuery) ? null : SearchQuery,
+                            _includedTypes != MediaType.None ? _includedTypes.ToString() : null,
+                            string.IsNullOrWhiteSpace(TitleQuery) ? null : TitleQuery);
+
+                        IsDataAvailable = resultModel?.Collection?.Metadata != null &&
+                                          resultModel.Collection.Metadata.TotalHits > 0;
+
+                        return resultModel;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                });
+
+                if (IsDataAvailable)
+                {
+                    await App.MainNavigation.PushAsync(new Views.SearchResultsView
+                    {
+                        BindingContext = new SearchResultsViewModel(result)
+                    });
+                }
+                else
+                {
+                    //show message
+                }
+            }
+            finally
+            {
+                UpdateBusyState(false);
+            }
+        }
+
+        private void UpdateBusyState(bool isBusy)
+        {
+            if (Device.IsInvokeRequired)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    IsBusy = isBusy;
+                    SearchCommand.ChangeCanExecute();
+                });
+                return;
+            }
+
+            IsBusy = isBusy;
+            SearchCommand.ChangeCanExecute();
         }
     }
 }

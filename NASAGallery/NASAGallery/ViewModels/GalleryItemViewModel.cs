@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace NASAGallery.ViewModels
 {
-    public class ApodViewModel : ViewModelBase
+    public class GalleryItemViewModel : ViewModelBase
     {
         private const string DateFormat = "yyyy-MM-dd";
         private string _copyright;
@@ -110,7 +110,9 @@ namespace NASAGallery.ViewModels
         }
 
         public string VideoUrl => IsVideoSource ? Url : string.Empty;
-        public string ImageUrl => !IsVideoSource ? Url : string.Empty;
+        public string ImageUrl => !IsVideoSource ? Url : ThumbUrl;
+
+        public string ThumbUrl { get; set; }
 
         public bool IsVideoSource => MediaType == Repository.MediaType.Video;
         
@@ -118,12 +120,17 @@ namespace NASAGallery.ViewModels
         public Command ShowNextDayCommand { get; }
         public Command OpenInBrowserCommand { get; }
 
-        public ApodViewModel()
+        public GalleryItemViewModel():this(true)
+        {
+        }
+
+        public GalleryItemViewModel(bool loadCurrentDay)
         {
             ShowPreviousDayCommand = new Command(async () => await ShowPreviousDay(), () => !IsBusy);
             ShowNextDayCommand = new Command(async () => await ShowNextDay(), () => !IsBusy && IsNexDayAvailable);
             OpenInBrowserCommand = new Command(() => Device.OpenUri(new Uri(Url)));
-            ShowCurrentDay();
+            if (loadCurrentDay)
+                ShowCurrentDay();
         }
 
         private void ShowCurrentDay()

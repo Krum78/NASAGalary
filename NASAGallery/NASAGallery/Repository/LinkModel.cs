@@ -11,5 +11,20 @@ namespace NASAGallery.Repository
         public string Prompt { get; set; }
 
         public string Href { get; set; }
+
+        public string Render { get; set; }
+
+        public MediaType MediaType
+        {
+            get
+            {
+                if (Enum.TryParse(Render, true, out MediaType value))
+                {
+                    return value;
+                }
+
+                return MediaType.None;
+            }
+        }
     }
 }

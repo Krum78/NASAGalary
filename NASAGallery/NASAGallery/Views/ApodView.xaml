@@ -6,7 +6,7 @@
              IsBusy="{Binding IsBusy}">
     <!--Title="{Binding Date}"-->
     <ContentPage.BindingContext>
-        <viewmodels:ApodViewModel />
+        <viewmodels:GalleryItemViewModel />
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding ShowPreviousDayCommand}" Text="Previous day" Priority="0" Order="Primary" Icon="double_left.png"/>
