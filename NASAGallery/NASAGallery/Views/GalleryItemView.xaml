@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:NASAGallery.ViewModels;assembly=NASAGallery"
-             x:Class="NASAGallery.Views.GalleryItemView">
+             x:Class="NASAGallery.Views.GalleryItemView"
+             Style="{StaticResource ContentPage}">
     <ContentPage.BindingContext>
         <viewModels:GalleryItemViewModel />
     </ContentPage.BindingContext>

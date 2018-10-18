@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:NASAGallery.ViewModels"
              x:Class="NASAGallery.Views.ApodView"
-             IsBusy="{Binding IsBusy}">
+             IsBusy="{Binding IsBusy}"
+             Style="{StaticResource ContentPage}">
     <!--Title="{Binding Date}"-->
     <ContentPage.BindingContext>
         <viewmodels:GalleryItemViewModel />

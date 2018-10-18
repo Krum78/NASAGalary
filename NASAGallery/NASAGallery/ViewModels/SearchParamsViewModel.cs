@@ -134,7 +134,7 @@ namespace NASAGallery.ViewModels
                 }
                 else
                 {
-                    //show message
+                    await Application.Current.MainPage.DisplayAlert("Search finished", "Search returned 0 results.", "OK");
                 }
             }
             finally

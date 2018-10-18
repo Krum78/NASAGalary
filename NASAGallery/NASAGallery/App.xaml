@@ -26,6 +26,15 @@
                 <Setter Property="TextColor" Value="{DynamicResource ListTextColor}" />
                 <Setter Property="Opacity" Value="0.4" />
             </Style>
+
+            <Style TargetType="ContentPage" x:Key="ContentPage">
+                <Setter Property="BackgroundColor" Value="#e2edff"/>
+            </Style>
+            
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#01317f"/>
+                <Setter Property="TextColor" Value="#ffffff"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

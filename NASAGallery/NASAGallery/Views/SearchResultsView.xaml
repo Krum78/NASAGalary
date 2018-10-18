@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:NASAGallery.ViewModels"
              x:Class="NASAGallery.Views.SearchResultsView"
-             x:Name="SearchResultsViewPage">
+             x:Name="SearchResultsViewPage"
+             Style="{StaticResource ContentPage}">
     <ContentPage.BindingContext>
         <viewModels:SearchResultsViewModel/>
     </ContentPage.BindingContext>

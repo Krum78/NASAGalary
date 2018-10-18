@@ -2,14 +2,59 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:NASAGallery.ViewModels"
-             x:Class="NASAGallery.MainPage">
+             x:Class="NASAGallery.MainPage"
+             Style="{StaticResource ContentPage}">
     <ContentPage.BindingContext>
         <local:MainPageViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout>
-        <Button HorizontalOptions="Fill" Text="Astronomy Picture of the Day" Command="{Binding GotoApodCommand}"/>
-        <Button HorizontalOptions="Fill" Text="NASA Image and Video Library" Command="{Binding GotoSearchCommand}"/>
+    <StackLayout Margin="5" VerticalOptions="Center">
+        <Frame CornerRadius="20"  BackgroundColor="#01317f" Margin="5" Padding="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding GotoApodCommand}"/>
+                </Grid.GestureRecognizers>
+                <Frame CornerRadius="80" VerticalOptions="Start" WidthRequest="80"  HeightRequest="80" Padding="0" Margin="5">
+                    <Image VerticalOptions="Fill" Source="apod_small.jpg" Aspect="AspectFill" />
+                </Frame>
+
+                <Label Grid.Column="1" Text="Astronomy Picture of the Day" FontAttributes="Bold"
+                       FontSize="Medium" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                       TextColor="#ffffff" Margin="5,0,0,0"/>
+            </Grid>
+        </Frame>
+
+        <Frame CornerRadius="20"  BackgroundColor="#01317f" Margin="5" Padding="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding GotoSearchCommand}"/>
+                </Grid.GestureRecognizers>
+                <Frame CornerRadius="80" VerticalOptions="Start" WidthRequest="80"  HeightRequest="80" Padding="0" Margin="5">
+                    <Image VerticalOptions="Fill" Source="library_small.jpg" Aspect="AspectFill" />
+                </Frame>
+                
+                <Label Grid.Column="1" Text="NASA Image and Video Library" FontAttributes="Bold"
+                       FontSize="Medium" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                       TextColor="#ffffff" Margin="5,0,0,0"/>
+            </Grid>
+        </Frame>
+
     </StackLayout>
 
 </ContentPage>

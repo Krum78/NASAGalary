@@ -103,6 +103,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="apod_small.jpg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
@@ -132,6 +133,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="double_left.png" />
     <Content Include="double_right.png" />
+    <Content Include="library_small.jpg" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
