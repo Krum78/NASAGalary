@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using NASAGallery.Common;
 using NASAGallery.Repository;
 using Xamarin.Forms;
 

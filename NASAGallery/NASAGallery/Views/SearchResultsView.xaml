@@ -16,10 +16,6 @@
               SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
               HasUnevenRows="True" CachingStrategy="RecycleElement"
               SeparatorVisibility="None">
-        <ListView.GestureRecognizers>
-            
-        </ListView.GestureRecognizers>
-
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
